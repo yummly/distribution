@@ -10,7 +10,7 @@ ENV DOCKER_BUILDTAGS include_oss include_gcs
 WORKDIR $DISTRIBUTION_DIR
 COPY . $DISTRIBUTION_DIR
 COPY cmd/registry/config-dev.yml /etc/docker/registry/config.yml
-RUN make PREFIX=/go clean binaries
+RUN CGO_ENABLED=0 make PREFIX=/go GO_LDFLAGS="-a -tags netgo -installsuffix netgo -ldflags '-s'" clean binaries
 
 VOLUME ["/var/lib/registry"]
 EXPOSE 5000
